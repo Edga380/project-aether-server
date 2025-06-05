@@ -53,7 +53,7 @@ app.use((req, res, next) => {
           `Error serving website template for subdomain ${subdomain}`,
           err
         );
-        res.status(404).send("Website not found");
+        next(err.status(404));
       }
     });
   }
@@ -65,13 +65,13 @@ app.use((req, res, next) => {
           `Error serving user website for subdomain ${subdomain}`,
           err
         );
-        res.status(404).send("Website not found");
+        next(err.status(404));
       }
     });
   }
 
   // If no file is found
-  res.status(404).send("Website not found");
+  next(err.status(404));
 });
 
 // Static file serving for public and general user websites
@@ -89,6 +89,10 @@ app.use(function (req, res, next) {
 
 // error handler
 app.use(function (err, req, res, next) {
+  if (res.status(404)) {
+    res.status(404).sendFile(path.join(__dirname, "public", "404.html"));
+    return;
+  }
   res.status(err.status || 500).json({
     message: err.message,
     error: req.app.get("env") === "development" ? err : {},
