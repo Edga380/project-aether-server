@@ -3,6 +3,7 @@ const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
+const cors = require("cors");
 const fs = require("fs");
 
 const app = express();
@@ -12,6 +13,9 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(cors());
+
+app.use("/api/create-website", require("./src/routes/api/createWebsite"));
 
 // Middleware to extract subdomain
 app.use((req, res, next) => {
@@ -24,6 +28,10 @@ app.use((req, res, next) => {
 
 // Middleware to serve user-specific websites
 app.use((req, res, next) => {
+  if (req.path.startsWith("/api")) {
+    return next();
+  }
+
   const subdomain = req.subdomain;
 
   if (!subdomain || subdomain === "www") {
@@ -53,7 +61,7 @@ app.use((req, res, next) => {
           `Error serving website template for subdomain ${subdomain}`,
           err
         );
-        next(err.status(404));
+        next(createError(404));
       }
     });
   }
@@ -65,13 +73,13 @@ app.use((req, res, next) => {
           `Error serving user website for subdomain ${subdomain}`,
           err
         );
-        next(err.status(404));
+        next(createError(404));
       }
     });
   }
 
   // If no file is found
-  next(err.status(404));
+  next(createError(404));
 });
 
 // Static file serving for public and general user websites
