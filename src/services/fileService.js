@@ -1,14 +1,16 @@
-const fs = require("fs").promises;
+const fs = require("fs");
 const path = require("path");
 
 exports.createWebsiteFiles = async (userId, page, html, css, js) => {
   const userPath = path.join(__dirname, "../../userWebsites", userId);
 
-  await fs.mkdir(userPath, { recursive: true });
+  await Promise.all(() => {
+    fs.mkdir(userPath, { recursive: true });
 
-  await fs.writeFile(path.join(userPath, `${page}.html`), html);
-  await fs.writeFile(path.join(userPath, "style.css"), css);
-  await fs.writeFile(path.join(userPath, "script.js"), js);
+    fs.writeFile(path.join(userPath, `${page}.html`), html);
+    fs.writeFile(path.join(userPath, "style.css"), css);
+    fs.writeFile(path.join(userPath, "script.js"), js);
+  });
 };
 
 exports.createInitialWebsite = async (subdomain, templateData) => {
@@ -19,22 +21,31 @@ exports.createInitialWebsite = async (subdomain, templateData) => {
     templateData.name
   );
 
-  const websiteFiles = await fs.readdir(initialWebsitePath, (error, files) => {
-    if (error) {
-      console.error(
-        "Failed to read files from 'WebsiteTemplates' folder: ",
-        error
-      );
-      return false;
-    }
-    return files.map((file) => file);
+  const websiteFiles = fs.readdirSync(initialWebsitePath);
+
+  const websiteFilesNames = websiteFiles.map((websiteFile) => websiteFile);
+
+  if (!websiteFilesNames)
+    throw new Error("Failed to read website file names", websiteFilesNames);
+
+  if (!fs.existsSync(userPath)) {
+    fs.mkdirSync(userPath);
+  }
+
+  websiteFilesNames.forEach((websiteFileName) => {
+    fs.copyFile(
+      path.join(initialWebsitePath, `/${websiteFileName}`),
+      path.join(userPath, `/${websiteFileName}`),
+      fs.constants.COPYFILE_FICLONE,
+      (error) => {
+        if (error) {
+          console.error(error);
+        } else {
+          console.log(`File ${websiteFileName} copied successfully.`);
+        }
+      }
+    );
   });
 
-  console.log(websiteFiles);
-
-  return websiteFiles;
-
-  //await fs.mkdir(userPath, {recursive: true});
-
-  //await fs.copyFile()
+  return true;
 };

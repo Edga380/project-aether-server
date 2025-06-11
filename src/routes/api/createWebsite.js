@@ -33,9 +33,12 @@ router.post("/", async (req, res) => {
       userData.template
     );
 
-    console.log(response);
+    if (response) {
+      return res.status(200).json({ message: "Website created successfully!" });
+    }
+    return res.status(502).json({ error: "Server error" });
   } catch (error) {
-    console.error("Failed to get usersCollection: ", error);
+    console.error("Server error: ", error);
   }
 
   return res.status(200).json({ message: "Website created successfully!" });

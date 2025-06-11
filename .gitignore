@@ -66,3 +66,6 @@ build/
 
 # TypeScript build outputs
 *.tsbuildinfo
+
+# User Websites Folder
+userWebsites/
