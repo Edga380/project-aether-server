@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { getCollection } = require("../../../database/database");
 const { ObjectId } = require("mongodb");
+const { createInitialWebsite } = require("../../services/fileService");
 
 router.post("/", async (req, res) => {
   console.log(req.body);
@@ -25,6 +26,14 @@ router.post("/", async (req, res) => {
     const userData = await usersCollection.findOne(query, options);
 
     console.log(userData);
+    if (!userData) return res.status(502).json({ error: "Server error" });
+
+    const response = await createInitialWebsite(
+      userData.subdomain,
+      userData.template
+    );
+
+    console.log(response);
   } catch (error) {
     console.error("Failed to get usersCollection: ", error);
   }
