@@ -1,4 +1,4 @@
-exports.navBar01 = (links) => {
+module.exports.navBar01 = (links) => {
   const html = `
     <nav>
       ${links

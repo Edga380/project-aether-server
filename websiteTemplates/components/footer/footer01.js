@@ -1,4 +1,4 @@
-exports.footer01 = () => {
+module.exports.footer01 = () => {
   const html = `
     <footer>
         Made with 

@@ -1,4 +1,4 @@
-exports.header01 = (content) => {
+module.exports.header01 = (content) => {
   const html = `
     <header>
         <h1>${content.title}</h1>
