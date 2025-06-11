@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { getCollection } = require("../../../database/database");
+const { ObjectId } = require("mongodb");
 
 router.post("/", async (req, res) => {
   console.log(req.body);
@@ -14,6 +15,16 @@ router.post("/", async (req, res) => {
     const usersCollection = await getCollection("users");
     if (!usersCollection)
       return res.status(502).json({ error: "Server error" });
+
+    const query = { _id: ObjectId.createFromHexString(userId) };
+
+    const options = {
+      projection: { template: 1, subdomain: 1 },
+    };
+
+    const userData = await usersCollection.findOne(query, options);
+
+    console.log(userData);
   } catch (error) {
     console.error("Failed to get usersCollection: ", error);
   }
