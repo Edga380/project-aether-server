@@ -15,37 +15,61 @@ exports.createWebsiteFiles = async (userId, page, html, css, js) => {
 
 exports.createInitialWebsite = async (subdomain, templateData) => {
   const userPath = path.join(__dirname, "../../userWebsites", subdomain);
-  const initialWebsitePath = path.join(
+  const mockWebsitePath = path.join(
     __dirname,
     "../../websiteTemplates",
     templateData.name
   );
 
-  const websiteFiles = fs.readdirSync(initialWebsitePath);
+  const websiteFilesNames = fs.readdirSync(mockWebsitePath);
 
-  const websiteFilesNames = websiteFiles.map((websiteFile) => websiteFile);
-
-  if (!websiteFilesNames)
-    throw new Error("Failed to read website file names", websiteFilesNames);
+  if (!websiteFilesNames || websiteFilesNames.length === 0)
+    throw new Error("Failed to read website file names or no files found");
 
   if (!fs.existsSync(userPath)) {
     fs.mkdirSync(userPath);
   }
 
-  websiteFilesNames.forEach((websiteFileName) => {
+  const copeWebsiteFilesPromises = websiteFilesNames.map((websiteFileName) => {
     fs.copyFile(
-      path.join(initialWebsitePath, `/${websiteFileName}`),
+      path.join(mockWebsitePath, `/${websiteFileName}`),
       path.join(userPath, `/${websiteFileName}`),
       fs.constants.COPYFILE_FICLONE,
       (error) => {
         if (error) {
           console.error(error);
-        } else {
-          console.log(`File ${websiteFileName} copied successfully.`);
         }
       }
     );
   });
 
+  await Promise.all(copeWebsiteFilesPromises);
+
+  this.updateUserTemplateColorPalette(userPath, templateData.colorPalette);
+
   return true;
+};
+
+exports.updateUserTemplateColorPalette = (userPath, colorPalette) => {
+  const parseColorPalette = JSON.parse(colorPalette);
+
+  const cssFileData = fs.readFileSync(
+    path.join(userPath, "style.css"),
+    "utf-8"
+  );
+
+  let updatedCssFileData = cssFileData;
+
+  for (const key in parseColorPalette) {
+    const regex = new RegExp(
+      `--${key}: rgba\\(\\d{1,3}, \\d{1,3}, \\d{1,3}, (0(\\.\\d+)?|1(\\.0+)?)\\);`
+    );
+
+    updatedCssFileData = updatedCssFileData.replace(
+      regex,
+      `--${key}: ${parseColorPalette[key]};`
+    );
+  }
+
+  fs.writeFileSync(`${userPath}/style.css`, updatedCssFileData);
 };

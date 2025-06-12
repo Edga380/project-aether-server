@@ -5,7 +5,6 @@ const { ObjectId } = require("mongodb");
 const { createInitialWebsite } = require("../../services/fileService");
 
 router.post("/", async (req, res) => {
-  console.log(req.body);
   const { userId } = req.body;
 
   if (!userId) {
@@ -25,10 +24,9 @@ router.post("/", async (req, res) => {
 
     const userData = await usersCollection.findOne(query, options);
 
-    console.log(userData);
     if (!userData) return res.status(502).json({ error: "Server error" });
 
-    const response = await createInitialWebsite(
+    const response = createInitialWebsite(
       userData.subdomain,
       userData.template
     );
