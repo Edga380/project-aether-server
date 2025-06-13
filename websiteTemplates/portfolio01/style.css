@@ -27,7 +27,7 @@ body {
 }
 
 nav {
-  background-color: var(--bg-alternate-color);
+  background-color: var(--bgAltColor);
   display: flex;
   position: relative;
   justify-content: center;
@@ -63,7 +63,7 @@ header p {
 .about {
   padding: 4rem 2rem;
   text-align: center;
-  background-color: var(--bg-alternate-color);
+  background-color: var(--bgAltColor);
 }
 
 .about h2 {
@@ -80,7 +80,7 @@ header p {
 .projects {
   padding: 4rem 2rem;
   text-align: center;
-  background-color: var(--bg-alternate-color);
+  background-color: var(--bgAltColor);
 }
 
 .projects h2 {
@@ -124,7 +124,7 @@ header p {
 .contact {
   padding: 4rem 2rem;
   text-align: center;
-  background-color: var(--bg-alternate-color);
+  background-color: var(--bgAltColor);
 }
 
 .contact h2 {
@@ -143,7 +143,7 @@ header p {
 }
 
 footer {
-  background-color: var(--bg-alternate-color);
+  background-color: var(--bgAltColor);
   color: #bbb;
   text-align: center;
   padding: 1rem 0;
