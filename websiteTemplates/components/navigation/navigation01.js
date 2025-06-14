@@ -1,5 +1,6 @@
 module.exports.navBar01 = (links) => {
   const html = `
+    <!-- Navigation start -->
     <nav id="mobile-navigation">
       <button
         onclick="toggleMobileMenu()"
@@ -61,6 +62,7 @@ module.exports.navBar01 = (links) => {
         })
         .join("")}
     </nav>
+    <!-- Navigation end -->
     `;
 
   const css = `
