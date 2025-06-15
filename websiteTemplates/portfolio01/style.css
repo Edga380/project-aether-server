@@ -26,7 +26,8 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-nav {
+/* Navigation start */
+nav#desktop-navigation {
   background-color: var(--bgAltColor);
   display: flex;
   position: relative;
@@ -34,7 +35,7 @@ nav {
   width: 100%;
   padding: 1rem 0 1rem 0;
 }
-nav a {
+nav#desktop-navigation a {
   text-decoration: none;
   color: var(--textColor);
   padding: 0.5rem 1rem 0.5rem 1rem;
@@ -42,10 +43,60 @@ nav a {
   font-size: large;
   font-family: "Courier New", Courier, monospace;
 }
-nav a:hover {
+nav#desktop-navigation a:hover {
   background-color: var(--hoverBg);
   color: var(--text-hover-color);
 }
+nav#mobile-navigation {
+  background-color: var(--bgAltColor);
+  width: 100%;
+  padding: 1rem;
+}
+nav#mobile-navigation span {
+  background-color: var(--textColor);
+}
+nav#mobile-navigation span.open {
+  background-color: var(--hoverBg);
+}
+nav#mobile-navigation ul {
+  background-color: var(--bgAltColor);
+  border-top: 2px solid var(--bgColor);
+  max-height: 0rem;
+  overflow: hidden;
+}
+nav#mobile-navigation ul.open {
+  padding: 1rem;
+  max-height: 20rem;
+}
+nav#mobile-navigation ul li {
+  padding: 0.5rem 1rem 0.5rem 1rem;
+  border-radius: 0.5rem;
+}
+nav#mobile-navigation ul li a {
+  background-color: var(--hoverBg);
+  text-decoration: none;
+  color: var(--textColor);
+  padding: 0.5rem 1rem 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-size: large;
+  font-family: "Courier New", Courier, monospace;
+}
+@media (max-width: 480px) {
+  nav#desktop-navigation {
+    display: none;
+  }
+
+  nav#mobile-navigation {
+    display: block;
+  }
+}
+
+@media (min-width: 481px) {
+  nav#mobile-navigation {
+    display: none;
+  }
+}
+/* Navigation end */
 
 header {
   background: var(--header-background);

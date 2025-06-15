@@ -122,6 +122,21 @@ module.exports.navBar01 = (links) => {
       font-size: large;
       font-family: "Courier New", Courier, monospace;
     }
+    @media (max-width: 480px) {
+      nav#desktop-navigation {
+        display: none;
+      }
+
+      nav#mobile-navigation {
+        display: block;
+      }
+    }
+
+    @media (min-width: 481px) {
+      nav#mobile-navigation {
+        display: none;
+      }
+    }
     /* Navigation end */
     `;
 

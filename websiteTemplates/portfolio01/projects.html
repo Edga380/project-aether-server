@@ -7,12 +7,70 @@
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
-    <nav>
+    <!-- Navigation start -->
+    <nav id="mobile-navigation">
+      <button
+        onclick="toggleMobileMenu()"
+        type="button"
+        style="
+          display: flex;
+          flex-direction: column;
+          background-color: transparent;
+          border: none;
+          gap: 0.4rem;
+          margin-left: auto;
+          margin-right: 1rem;
+        "
+      >
+        <span
+          class="burger-menu-line"
+          style="width: 2rem; height: 0.3rem; border-radius: 1rem"
+        ></span>
+        <span
+          class="burger-menu-line"
+          style="width: 2rem; height: 0.3rem; border-radius: 1rem"
+        ></span>
+        <span
+          class="burger-menu-line"
+          style="width: 2rem; height: 0.3rem; border-radius: 1rem"
+        ></span>
+      </button>
+      <ul
+        id="mobile-menu-options"
+        style="
+          position: absolute;
+          left: 0;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          width: 100%;
+          margin-top: 1rem;
+          list-style-type: none;
+          transition: max-height 0.5s ease, padding 0.5s ease;
+        "
+      >
+        <li>
+          <a href="/">Home</a>
+        </li>
+        <li>
+          <a href="/about">About</a>
+        </li>
+        <li>
+          <a href="/projects">Projects</a>
+        </li>
+        <li>
+          <a href="/contact">Contact</a>
+        </li>
+      </ul>
+    </nav>
+    <nav id="desktop-navigation">
       <a href="/">Home</a>
       <a href="/about">About</a>
       <a href="/projects">Projects</a>
       <a href="/contact">Contact</a>
     </nav>
+    <!-- Navigation end -->
+
     <header>
       <h1>Projects Page</h1>
       <p>Projects page header paragraph</p>
