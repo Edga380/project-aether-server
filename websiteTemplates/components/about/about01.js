@@ -1,36 +1,30 @@
-module.exports = () => {
+module.exports = (data) => {
   const html = `
     <!-- About start -->
-    <section class="contact">
-        <h2>Contact Me</h2>
-        <p>Email: <a href="mailto:example@example.com">example@example.com</a></p>
-        <p>Phone: 000000000</p>
-    </section>
+      <section class="about" id="about">
+        <h2>${data[0].header}</h2>
+        <p>${data[0].paragraph}</p>
+      </section>
     <!-- About end -->
     `;
 
   const css = `
     /* About start */
-    .contact {
-    background-color: var(--bgAltColor);
-    color: rgba(250, 250, 250, 1);
-    padding: 2rem;
-    text-align: center;
+    .about {
+      padding: 4rem 2rem;
+      text-align: center;
+      background-color: var(--bgAltColor);
     }
 
-    .contact h2 {
-    color: var(--primaryColor);
-    margin-bottom: 1rem;
+    .about h2 {
+      color: var(--primaryColor);
+      margin-bottom: 1rem;
     }
 
-    .contact p {
-    color: var(--textColor);
-    margin-bottom: 1rem;
-    }
-
-    .contact a {
-    color: var(--secondaryColor);
-    text-decoration: underline;
+    .about p {
+      max-width: 700px;
+      margin: 0 auto;
+      color: var(--textColor);
     }
     /* About end */
     `;
