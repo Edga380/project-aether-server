@@ -5,6 +5,7 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const cors = require("cors");
 const fs = require("fs");
+const { getTemplateData } = require("./database/getTemplateData");
 
 const app = express();
 
@@ -27,7 +28,7 @@ app.use((req, res, next) => {
 });
 
 // Middleware to serve user-specific websites
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
   if (req.path.startsWith("/api")) {
     return next();
   }
@@ -38,47 +39,44 @@ app.use((req, res, next) => {
     return next();
   }
 
-  const websiteTemplatePath = path.join(
-    __dirname,
-    "websiteTemplates",
-    subdomain
-  );
+  // User website
   const userWebsitePath = path.join(__dirname, "userWebsites", subdomain);
 
-  const requestedFile =
-    req.path === "/"
-      ? "index.html"
-      : req.path.endsWith("css") || req.path.endsWith("js")
-      ? req.path
-      : `${req.path}.html`;
-  const websiteTemplateFilePath = path.join(websiteTemplatePath, requestedFile);
-  const filePath = path.join(userWebsitePath, requestedFile);
+  if (fs.existsSync(userWebsitePath)) {
+    console.log("userWebsitePath");
 
-  if (fs.existsSync(websiteTemplateFilePath)) {
-    return res.sendFile(websiteTemplateFilePath, (err) => {
-      if (err) {
-        console.error(
-          `Error serving website template for subdomain ${subdomain}`,
-          err
-        );
-        next(createError(404));
-      }
-    });
+    const requestedFile =
+      req.path === "/"
+        ? "index.html"
+        : req.path.endsWith("css") || req.path.endsWith("js")
+        ? req.path
+        : `${req.path}.html`;
+    const filePath = path.join(userWebsitePath, requestedFile);
+
+    if (fs.existsSync(filePath)) {
+      return res.sendFile(filePath, (err) => {
+        if (err) {
+          console.error(
+            `Error serving user website for subdomain ${subdomain}`,
+            err
+          );
+          next(createError(404));
+        }
+      });
+    }
   }
 
-  if (fs.existsSync(filePath)) {
-    return res.sendFile(filePath, (err) => {
-      if (err) {
-        console.error(
-          `Error serving user website for subdomain ${subdomain}`,
-          err
-        );
-        next(createError(404));
-      }
-    });
-  }
+  // Template website
 
-  // If no file is found
+  // 1. Check database for template data
+  const templateData = await getTemplateData(subdomain);
+
+  console.log(templateData);
+  console.log("templateData");
+  // 2. Generate html structure
+  // 3. Send back html data
+
+  // If website do not exist
   next(createError(404));
 });
 
