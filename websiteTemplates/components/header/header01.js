@@ -1,9 +1,9 @@
-module.exports.header01 = (content) => {
+module.exports = (data) => {
   const html = `
     <!-- Header start -->
     <header>
-        <h1>${content.title}</h1>
-        <p>${content.subtitle}</p>
+        <h1>${data[0].main}</h1>
+        <p>${data[0].paragraph}</p>
     </header>
     <!-- Header end -->
     `;
@@ -11,17 +11,21 @@ module.exports.header01 = (content) => {
   const css = `
     /* Header start */
     header {
-        background-image: linear-gradient(90deg, red, yellow);
-        text-align: center;
+      background-image: var(--header-background);
+      text-align: center;
     }
     header h1 {
-        padding: 6rem 0 1rem 0;
+      font-size: 3rem;
+      padding: 6rem 0 1rem 0;
     }
     header p {
-        padding: 0 0 6rem 0;
+      font-size: 1.2rem;
+      padding: 0 0 6rem 0;
     }
     /* Header end */
     `;
 
-  return { html: html.trim(), css: css.trim() };
+  const javaScript = ``;
+
+  return { html: html.trim(), css: css.trim(), javascript: javaScript.trim() };
 };

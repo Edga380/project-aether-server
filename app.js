@@ -6,6 +6,7 @@ const logger = require("morgan");
 const cors = require("cors");
 const fs = require("fs");
 const { getTemplateData } = require("./database/getTemplateData");
+const { generateTemplate } = require("./src/controllers/websiteController");
 
 const app = express();
 
@@ -43,8 +44,6 @@ app.use(async (req, res, next) => {
   const userWebsitePath = path.join(__dirname, "userWebsites", subdomain);
 
   if (fs.existsSync(userWebsitePath)) {
-    console.log("userWebsitePath");
-
     const requestedFile =
       req.path === "/"
         ? "index.html"
@@ -54,29 +53,30 @@ app.use(async (req, res, next) => {
     const filePath = path.join(userWebsitePath, requestedFile);
 
     if (fs.existsSync(filePath)) {
-      return res.sendFile(filePath, (err) => {
-        if (err) {
+      return res.sendFile(filePath, (error) => {
+        if (error) {
           console.error(
             `Error serving user website for subdomain ${subdomain}`,
-            err
+            error
           );
           next(createError(404));
         }
       });
     }
   }
-
   // Template website
-
-  // 1. Check database for template data
   const templateData = await getTemplateData(subdomain);
 
-  console.log(templateData);
-  console.log("templateData");
-  // 2. Generate html structure
-  // 3. Send back html data
+  const generatedTemplate = generateTemplate(
+    templateData.content,
+    templateData.colorPalette,
+    req.path
+  );
 
-  // If website do not exist
+  if (generatedTemplate) {
+    return res.send(generatedTemplate);
+  }
+
   next(createError(404));
 });
 

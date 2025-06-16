@@ -8,7 +8,7 @@ exports.getTemplateData = async (name) => {
 
     const query = { name: name };
 
-    const options = { projection: { content: 1 } };
+    const options = { projection: { content: 1, colorPalette: 1 } };
 
     const templateData = await templatesCollection.findOne(query, options);
 

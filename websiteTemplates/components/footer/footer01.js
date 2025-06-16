@@ -1,15 +1,18 @@
-module.exports.footer01 = () => {
+module.exports = () => {
   const html = `
+    <!-- Footer start -->
     <footer>
         Made with 
         <a href="/">Aether Project</a>
     </footer>
+    <!-- Footer end -->
     `;
 
   const css = `
+    /* Footer start */
     footer {
-        background-color: rgba(60, 60, 60, 1);
-        color: rgba(250, 250, 250, 1);
+        background-color: var(--bgAltColor);
+        color: var(--textColor);
         display: inline-flex;
         justify-content: center;
         width: 100%;
@@ -17,13 +20,16 @@ module.exports.footer01 = () => {
         font-family: "Courier New", Courier, monospace;
     }
     footer a {
-        color: rgba(250, 250, 250, 1);
+        color: color: var(--textColor);
         padding-left: 0.5rem;
     }
     footer a:hover {
-        color: rgba(210, 210, 210, 1);
+        color: color: var(--textColor);
     }
+    /* Footer end */
     `;
 
-  return { html: html.trim(), css: css.trim() };
+  const javaScript = ``;
+
+  return { html: html.trim(), css: css.trim(), javascript: javaScript.trim() };
 };

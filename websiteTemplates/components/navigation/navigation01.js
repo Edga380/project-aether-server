@@ -1,4 +1,4 @@
-module.exports.navBar01 = (links) => {
+module.exports = (data) => {
   const html = `
     <!-- Navigation start -->
     <nav id="mobile-navigation">
@@ -42,23 +42,17 @@ module.exports.navBar01 = (links) => {
           transition: max-height 0.5s ease, padding 0.5s ease;
         "
       >
-      ${links
-        .map((link) => {
-          const href = link === "home" ? "/" : `/${link}`;
-          return `<li><a href="${href}">${
-            link.charAt(0).toUpperCase() + link.slice(1)
-          }</a></li>`;
+      ${data
+        .map((object) => {
+          return `<li><a href="${object.href}">${object.name}</a></li>`;
         })
         .join("")}
       </ul>
     </nav>
     <nav id="desktop-navigation">
-      ${links
-        .map((link) => {
-          const href = link === "home" ? "/" : `/${link}`;
-          return `<a href="${href}">${
-            link.charAt(0).toUpperCase() + link.slice(1)
-          }</a>`;
+      ${data
+        .map((object) => {
+          return `<a href="${object.href}">${object.name}</a>`;
         })
         .join("")}
     </nav>
