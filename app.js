@@ -50,8 +50,8 @@ app.use(async (req, res, next) => {
         : req.path.endsWith("css") || req.path.endsWith("js")
         ? req.path
         : `${req.path}.html`;
-    const filePath = path.join(userWebsitePath, requestedFile);
 
+    const filePath = path.join(userWebsitePath, requestedFile);
     if (fs.existsSync(filePath)) {
       return res.sendFile(filePath, (error) => {
         if (error) {
@@ -62,8 +62,11 @@ app.use(async (req, res, next) => {
           next(createError(404));
         }
       });
+    } else {
+      return;
     }
   }
+
   // Template website
   const templateData = await getTemplateData(subdomain);
 
