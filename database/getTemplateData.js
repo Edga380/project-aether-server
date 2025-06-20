@@ -1,12 +1,12 @@
 const { getCollection } = require("./database");
 
-exports.getTemplateData = async (name) => {
+exports.getTemplateData = async (subdomain) => {
   try {
     const templatesCollection = await getCollection("templates");
     if (!templatesCollection)
       return res.status(502).json({ error: "Server error" });
 
-    const query = { name: name };
+    const query = { subdomain: subdomain };
 
     const options = { projection: { content: 1, colorPalette: 1 } };
 

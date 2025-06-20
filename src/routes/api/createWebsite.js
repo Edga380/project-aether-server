@@ -5,10 +5,12 @@ const { ObjectId } = require("mongodb");
 const { createInitialWebsite } = require("../../services/fileService");
 
 router.post("/", async (req, res) => {
-  const { userId } = req.body;
+  const { userId, templateId } = req.body;
 
-  if (!userId) {
-    return res.status(400).json({ error: "User Id is required" });
+  if (!userId || !templateId) {
+    return res
+      .status(400)
+      .json({ error: "User Id and template Id is required" });
   }
 
   try {
@@ -16,10 +18,13 @@ router.post("/", async (req, res) => {
     if (!usersCollection)
       return res.status(502).json({ error: "Server error" });
 
-    const query = { _id: ObjectId.createFromHexString(userId) };
+    const query = {
+      _id: ObjectId.createFromHexString(userId),
+      "websites._id": ObjectId.createFromHexString(templateId),
+    };
 
     const options = {
-      projection: { template: 1, subdomain: 1 },
+      projection: { "websites.$": 1 },
     };
 
     const userData = await usersCollection.findOne(query, options);
@@ -27,8 +32,8 @@ router.post("/", async (req, res) => {
     if (!userData) return res.status(502).json({ error: "Server error" });
 
     const response = createInitialWebsite(
-      userData.subdomain,
-      userData.template
+      userData.websites[0].subdomain,
+      userData.websites[0]
     );
 
     if (response) {

@@ -1,24 +1,12 @@
 const fs = require("fs");
 const path = require("path");
 
-exports.createWebsiteFiles = async (userId, page, html, css, js) => {
-  const userPath = path.join(__dirname, "../../userWebsites", userId);
-
-  await Promise.all(() => {
-    fs.mkdir(userPath, { recursive: true });
-
-    fs.writeFile(path.join(userPath, `${page}.html`), html);
-    fs.writeFile(path.join(userPath, "style.css"), css);
-    fs.writeFile(path.join(userPath, "script.js"), js);
-  });
-};
-
-exports.createInitialWebsite = async (subdomain, templateData) => {
-  const userPath = path.join(__dirname, "../../userWebsites", subdomain);
+exports.createInitialWebsite = async (userSubdomain, templateData) => {
+  const userPath = path.join(__dirname, "../../userWebsites", userSubdomain);
   const mockWebsitePath = path.join(
     __dirname,
     "../../websiteTemplates",
-    templateData.name
+    templateData.template.subdomain
   );
 
   const websiteFilesNames = fs.readdirSync(mockWebsitePath);
@@ -30,7 +18,7 @@ exports.createInitialWebsite = async (subdomain, templateData) => {
     fs.mkdirSync(userPath);
   }
 
-  const copeWebsiteFilesPromises = websiteFilesNames.map((websiteFileName) => {
+  const copyWebsiteFilesPromises = websiteFilesNames.map((websiteFileName) => {
     fs.copyFile(
       path.join(mockWebsitePath, `/${websiteFileName}`),
       path.join(userPath, `/${websiteFileName}`),
@@ -43,7 +31,7 @@ exports.createInitialWebsite = async (subdomain, templateData) => {
     );
   });
 
-  await Promise.all(copeWebsiteFilesPromises);
+  await Promise.all(copyWebsiteFilesPromises);
 
   this.updateUserTemplateColorPalette(userPath, templateData.colorPalette);
 

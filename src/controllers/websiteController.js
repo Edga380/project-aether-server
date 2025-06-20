@@ -1,7 +1,4 @@
-const {
-  createWebsiteFiles,
-  updateTemplateColorPalette,
-} = require("../services/fileService");
+const { updateTemplateColorPalette } = require("../services/fileService");
 
 exports.generateTemplate = (data, colorPalette, page) => {
   const pageToGenerate =
@@ -93,12 +90,4 @@ exports.generateTemplate = (data, colorPalette, page) => {
   return htmlPage;
 };
 
-exports.createWebsite = async (req, res) => {
-  const { userId, html, css, js } = req.body;
-
-  try {
-    await createWebsiteFiles(userId, html, css, js);
-  } catch (error) {
-    res.status(500).json({ message: "Failed to create website", error });
-  }
-};
+exports.createWebsite = async () => {};
