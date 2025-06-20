@@ -31,10 +31,7 @@ router.post("/", async (req, res) => {
 
     if (!userData) return res.status(502).json({ error: "Server error" });
 
-    const response = createInitialWebsite(
-      userData.websites[0].subdomain,
-      userData.websites[0]
-    );
+    const response = createInitialWebsite(userData.websites[0]);
 
     if (response) {
       return res.status(200).json({ message: "Website created successfully!" });

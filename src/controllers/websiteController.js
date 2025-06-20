@@ -1,4 +1,6 @@
-const { updateTemplateColorPalette } = require("../services/fileService");
+const {
+  updateUserTemplateColorPalette,
+} = require("../utils/updateUserTemplateColorPalette");
 
 exports.generateTemplate = (data, colorPalette, page) => {
   const pageToGenerate =
@@ -39,7 +41,7 @@ exports.generateTemplate = (data, colorPalette, page) => {
   }
   `;
 
-  css = updateTemplateColorPalette(colorPalette, css);
+  css = updateUserTemplateColorPalette(colorPalette, css);
 
   let javascript = `
   function applyColorSchema(colorSchema) {
@@ -90,4 +92,89 @@ exports.generateTemplate = (data, colorPalette, page) => {
   return htmlPage;
 };
 
-exports.createWebsite = async () => {};
+exports.generateInitialUserWebsite = (templateData) => {
+  const htmlPages = {};
+  const css = new Set();
+  const javascript = new Set();
+
+  css.add(
+    `* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    }
+    :root {
+      --header-background: linear-gradient(
+        135deg,
+        var(--primaryColor),
+        var(--secondaryColor)
+      );
+      --primaryColor: rgba(255, 69, 0, 1);
+      --secondaryColor: rgba(255, 160, 122, 1);
+      --bgColor: rgba(20, 20, 20, 1);
+      --bgAltColor: rgba(30, 30, 30, 1);
+      --textColor: rgba(255, 235, 205, 1);
+      --cardBg: rgba(45, 45, 45, 1);
+      --hoverBg: var(--primaryColor);
+    }
+
+    body {
+      font-family: "Arial", sans-serif;
+      line-height: 1.6;
+      background-color: var(--bgColor);
+      color: var(--textColor);
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }`
+  );
+
+  for (const firstKey in templateData.content) {
+    for (const secondKey in templateData.content[firstKey]) {
+      const componentFunction = require(`../../websiteTemplates/components/${secondKey}/${templateData.content[firstKey][secondKey].component}`);
+
+      const componentData = componentFunction(
+        templateData.content[firstKey][secondKey].data
+      );
+
+      if (htmlPages[firstKey]) {
+        htmlPages[firstKey] += componentData.html;
+      } else {
+        htmlPages[firstKey] = componentData.html;
+      }
+
+      if (!css.has(componentData.css)) {
+        css.add(componentData.css);
+      }
+
+      if (!javascript.has(componentData.javascript)) {
+        javascript.add(componentData.javascript);
+      }
+    }
+  }
+
+  const addedHtmlToPages = Object.entries(htmlPages).map((page) => [
+    page[0],
+    `<!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Creative Portfolio</title>
+        <link rel="stylesheet" href="./style.css" />
+      </head>
+      <body>
+      ${page[1]}
+      <script src="./script.js"></script>
+      </body>
+    </html>`,
+  ]);
+
+  let cssData = Array.from(css).join("\n");
+
+  cssData = updateUserTemplateColorPalette(templateData.colorPalette, cssData);
+
+  return {
+    htmlPagesData: Object.fromEntries(addedHtmlToPages),
+    cssData: cssData,
+    javascriptData: Array.from(javascript).join("\n"),
+  };
+};

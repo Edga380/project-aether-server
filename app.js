@@ -7,6 +7,9 @@ const cors = require("cors");
 const fs = require("fs");
 const { getTemplateData } = require("./database/getTemplateData");
 const { generateTemplate } = require("./src/controllers/websiteController");
+const {
+  sortTemplateDataComponents,
+} = require("./src/utils/sortTemplateDataComponents");
 
 const app = express();
 
@@ -70,13 +73,7 @@ app.use(async (req, res, next) => {
   // Template website
   const templateData = await getTemplateData(subdomain);
 
-  for (const key in templateData.content) {
-    const contentData = templateData.content[key];
-    const sortedContentData = Object.entries(contentData).sort(
-      ([, a], [, b]) => a.index - b.index
-    );
-    templateData.content[key] = Object.fromEntries(sortedContentData);
-  }
+  templateData.content = sortTemplateDataComponents(templateData.content);
 
   const generatedTemplate = generateTemplate(
     templateData.content,

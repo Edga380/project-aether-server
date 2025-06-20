@@ -20,11 +20,11 @@ module.exports = () => {
         font-family: "Courier New", Courier, monospace;
     }
     footer a {
-        color: color: var(--textColor);
+        color: var(--textColor);
         padding-left: 0.5rem;
     }
     footer a:hover {
-        color: color: var(--textColor);
+        color: var(--textColor);
     }
     /* Footer end */
     `;
