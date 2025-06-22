@@ -10,7 +10,11 @@ const {
 exports.createInitialWebsite = async (templateData) => {
   templateData.content = sortTemplateDataComponents(templateData.content);
 
-  const userPath = path.join(__dirname, "../../userWebsites", "user1");
+  const userPath = path.join(
+    __dirname,
+    "../../userWebsites",
+    templateData.subdomain
+  );
 
   if (!fs.existsSync(userPath)) {
     fs.mkdirSync(userPath);
