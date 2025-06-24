@@ -73,6 +73,11 @@ app.use(async (req, res, next) => {
   // Template website
   const templateData = await getTemplateData(subdomain);
 
+  if (!templateData) {
+    next(createError(404));
+    return;
+  }
+
   templateData.content = sortTemplateDataComponents(templateData.content);
 
   const generatedTemplate = generateTemplate(
