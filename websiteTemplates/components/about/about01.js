@@ -29,7 +29,10 @@ module.exports = (data) => {
     /* About end */
     `;
 
-  const javaScript = ``;
+  const javaScript = `
+    // About start
+    // About end
+    `;
 
   return { html: html.trim(), css: css.trim(), javascript: javaScript.trim() };
 };

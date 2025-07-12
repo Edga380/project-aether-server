@@ -25,7 +25,10 @@ module.exports = (data) => {
     /* Header end */
     `;
 
-  const javaScript = ``;
+  const javaScript = `
+    // Header start
+    // Header end
+    `;
 
   return { html: html.trim(), css: css.trim(), javascript: javaScript.trim() };
 };

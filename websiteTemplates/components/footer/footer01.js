@@ -29,7 +29,10 @@ module.exports = () => {
     /* Footer end */
     `;
 
-  const javaScript = ``;
+  const javaScript = `
+    // Footer start
+    // Footer end
+    `;
 
   return { html: html.trim(), css: css.trim(), javascript: javaScript.trim() };
 };
