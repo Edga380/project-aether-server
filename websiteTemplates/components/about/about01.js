@@ -1,37 +1,37 @@
-module.exports = (data) => {
+module.exports = (data, index) => {
   const html = `
-    <!-- About start -->
-      <section class="about" id="about">
+    <!-- About01 start -->
+      <section class="about01" id="about01">
         <h2>${data[0].header}</h2>
         <p>${data[0].paragraph}</p>
       </section>
-    <!-- About end -->
+    <!-- About01 end -->
     `;
 
   const css = `
-    /* About start */
-    .about {
-      padding: 4rem 2rem;
+    /* About01 start */
+    .about01 {
+      padding: 2rem 1rem;
       text-align: center;
-      background-color: var(--bgAltColor);
+      background-color: var(${index % 2 === 0 ? "--bgAltColor" : "--bgColor"});
     }
 
-    .about h2 {
+    .about01 h2 {
       color: var(--primaryColor);
       margin-bottom: 1rem;
     }
 
-    .about p {
+    .about01 p {
       max-width: 700px;
       margin: 0 auto;
       color: var(--textColor);
     }
-    /* About end */
+    /* About01 end */
     `;
 
   const javaScript = `
-    // About start
-    // About end
+    // About01 start
+    // About01 end
     `;
 
   return { html: html.trim(), css: css.trim(), javascript: javaScript.trim() };

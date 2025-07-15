@@ -37,7 +37,7 @@ module.exports = (data, index) => {
   const css = `
     /* Card01 start */
     .card01 {
-      background-color: var(${index % 0 ? "--bgColor" : "--bgAltColor"});
+      background-color: var(${index % 2 === 0 ? "--bgAltColor" : "--bgColor"});
       text-align: center;
       padding: 2rem 1rem;
     }
