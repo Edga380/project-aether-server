@@ -62,7 +62,10 @@ exports.generateTemplate = (data, colorPalette, page) => {
   for (const key in data[pageToGenerate]) {
     const componentFunction = require(`../../websiteTemplates/components/${key}/${data[pageToGenerate][key].component}`);
 
-    const componentData = componentFunction(data[pageToGenerate][key].data);
+    const componentData = componentFunction(
+      data[pageToGenerate][key].data,
+      data[pageToGenerate][key].index
+    );
 
     html += componentData.html ? componentData.html : "";
     css += componentData.css ? componentData.css : "";
