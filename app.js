@@ -10,6 +10,7 @@ const { generateTemplate } = require("./src/controllers/websiteController");
 const {
   sortTemplateDataComponents,
 } = require("./src/utils/sortTemplateDataComponents");
+const { ObjectId } = require("mongodb");
 
 const app = express();
 
@@ -77,8 +78,6 @@ app.use(async (req, res, next) => {
     next(createError(404));
     return;
   }
-
-  templateData.content = sortTemplateDataComponents(templateData.content);
 
   const generatedTemplate = generateTemplate(
     templateData.content,

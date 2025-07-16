@@ -2,11 +2,11 @@ const {
   updateUserTemplateColorPalette,
 } = require("../utils/updateUserTemplateColorPalette");
 
-exports.generateTemplate = (data, colorPalette, page) => {
+exports.generateTemplate = (contentData, colorPalette, page) => {
   const pageToGenerate =
     page === "/" ? "index" : page.toString().slice(1, page.length);
 
-  if (!data[pageToGenerate]) {
+  if (!contentData[pageToGenerate]) {
     return undefined;
   }
 
@@ -59,17 +59,34 @@ exports.generateTemplate = (data, colorPalette, page) => {
   });
   `;
 
-  for (const key in data[pageToGenerate]) {
-    const componentFunction = require(`../../websiteTemplates/components/${key}/${data[pageToGenerate][key].component}`);
+  const storedComponentIndexes = [];
+  for (const key in contentData[pageToGenerate]) {
+    contentData[pageToGenerate][key].forEach((componentArray) => {
+      storedComponentIndexes.push(componentArray.index);
+    });
+  }
 
-    const componentData = componentFunction(
-      data[pageToGenerate][key].data,
-      data[pageToGenerate][key].index
-    );
+  storedComponentIndexes.sort((a, b) => a - b);
 
-    html += componentData.html ? componentData.html : "";
-    css += componentData.css ? componentData.css : "";
-    javascript += componentData.javascript ? componentData.javascript : "";
+  for (let i = 0; i < storedComponentIndexes.length; i++) {
+    const componentIndex = storedComponentIndexes[i];
+    for (const key in contentData[pageToGenerate]) {
+      const foundComponent = contentData[pageToGenerate][key].find(
+        (component) => component.index === componentIndex
+      );
+      if (foundComponent) {
+        const componentFunction = require(`../../websiteTemplates/components/${key}/${foundComponent.component}`);
+
+        const componentData = componentFunction(
+          foundComponent.data,
+          foundComponent.index
+        );
+
+        html += componentData.html;
+        css += componentData.css;
+        javascript += componentData.javascript;
+      }
+    }
   }
 
   const htmlPage = `
