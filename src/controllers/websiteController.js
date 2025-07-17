@@ -113,6 +113,7 @@ exports.generateTemplate = (contentData, colorPalette, page) => {
 };
 
 exports.generateInitialUserWebsite = (templateData) => {
+  const { content, colorPalette } = templateData;
   const htmlPages = {};
   const css = new Set();
   const javascript = new Set();
@@ -147,26 +148,44 @@ exports.generateInitialUserWebsite = (templateData) => {
     }`
   );
 
-  for (const firstKey in templateData.content) {
-    for (const secondKey in templateData.content[firstKey]) {
-      const componentFunction = require(`../../websiteTemplates/components/${secondKey}/${templateData.content[firstKey][secondKey].component}`);
+  for (const pageKey in content) {
+    const storedComponentIndexes = [];
+    for (const key in content[pageKey]) {
+      content[pageKey][key].forEach((componentArray) => {
+        storedComponentIndexes.push(componentArray.index);
+      });
+    }
 
-      const componentData = componentFunction(
-        templateData.content[firstKey][secondKey].data
-      );
+    storedComponentIndexes.sort((a, b) => a - b);
 
-      if (htmlPages[firstKey]) {
-        htmlPages[firstKey] += componentData.html;
-      } else {
-        htmlPages[firstKey] = componentData.html;
-      }
+    for (let i = 0; i < storedComponentIndexes.length; i++) {
+      const componentIndex = storedComponentIndexes[i];
+      for (const key in content[pageKey]) {
+        const foundComponent = content[pageKey][key].find(
+          (component) => component.index === componentIndex
+        );
+        if (foundComponent) {
+          const componentFunction = require(`../../websiteTemplates/components/${key}/${foundComponent.component}`);
 
-      if (!css.has(componentData.css)) {
-        css.add(componentData.css);
-      }
+          const componentData = componentFunction(
+            foundComponent.data,
+            foundComponent.index
+          );
 
-      if (!javascript.has(componentData.javascript)) {
-        javascript.add(componentData.javascript);
+          if (htmlPages[pageKey]) {
+            htmlPages[pageKey] += componentData.html;
+          } else {
+            htmlPages[pageKey] = componentData.html;
+          }
+
+          if (!css.has(componentData.css)) {
+            css.add(componentData.css);
+          }
+
+          if (!javascript.has(componentData.javascript)) {
+            javascript.add(componentData.javascript);
+          }
+        }
       }
     }
   }
@@ -190,7 +209,7 @@ exports.generateInitialUserWebsite = (templateData) => {
 
   let cssData = Array.from(css).join("\n");
 
-  cssData = updateUserTemplateColorPalette(templateData.colorPalette, cssData);
+  cssData = updateUserTemplateColorPalette(colorPalette, cssData);
 
   return {
     htmlPagesData: Object.fromEntries(addedHtmlToPages),

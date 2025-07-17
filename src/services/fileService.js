@@ -3,13 +3,8 @@ const path = require("path");
 const {
   generateInitialUserWebsite,
 } = require("../controllers/websiteController");
-const {
-  sortTemplateDataComponents,
-} = require("../utils/sortTemplateDataComponents");
 
 exports.createInitialWebsite = async (templateData) => {
-  templateData.content = sortTemplateDataComponents(templateData.content);
-
   const userPath = path.join(
     __dirname,
     "../../userWebsites",
