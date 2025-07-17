@@ -7,11 +7,6 @@ const cors = require("cors");
 const fs = require("fs");
 const { getTemplateData } = require("./database/getTemplateData");
 const { generateTemplate } = require("./src/controllers/websiteController");
-const {
-  sortTemplateDataComponents,
-} = require("./src/utils/sortTemplateDataComponents");
-const { ObjectId } = require("mongodb");
-
 const app = express();
 
 // Middleware setup
