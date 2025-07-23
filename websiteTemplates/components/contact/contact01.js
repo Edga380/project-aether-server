@@ -1,13 +1,13 @@
 module.exports = (data, index) => {
   const html = `
-    <!-- Contact01 start -->
-    <section class="contact01">
+    <!-- Contact-${index} start -->
+    <section class="contact-${index}">
       <h2>${data.sectionTitle}</h2>
-      <div class="contact01-container">
+      <div class="contact-${index}-container">
       ${data.contacts
         .map((contact) => {
           return `
-        <div class="contact01-text-container">
+        <div class="contact-${index}-text-container">
           <p>${contact.position}</p>
           <p>${contact.nameSurname}</p>
           <p>${contact.email}</p>
@@ -18,18 +18,18 @@ module.exports = (data, index) => {
         .join("")}
       </div>
     </section>
-    <!-- Contact01 end -->
+    <!-- Contact-${index} end -->
     `;
 
   const css = `
-    /* Contact01 start */
-    .contact01 {
+    /* Contact-${index} start */
+    .contact-${index} {
       background-color: var(${index % 2 === 0 ? "--bgAltColor" : "--bgColor"});
       text-align: center;
       padding: 2rem 1rem;
     }
 
-    .contact01-container {
+    .contact-${index}-container {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
@@ -38,7 +38,7 @@ module.exports = (data, index) => {
       gap: 2rem;
     }
 
-    .contact01-text-container {
+    .contact-${index}-text-container {
       background-color: var(--cardBg);
       display: flex;
       flex-direction: column;
@@ -50,16 +50,16 @@ module.exports = (data, index) => {
       padding: 1rem 4rem;
     }
 
-    .contact01 h2 {
+    .contact-${index} h2 {
       color: var(--primaryColor);
       margin-bottom: 1rem;
     }
-    /* Contact01 end */
+    /* Contact-${index} end */
     `;
 
   const javaScript = `
-    // Contact01 start
-    // Contact01 end
+    // Contact-${index} start
+    // Contact-${index} end
     `;
 
   return { html: html.trim(), css: css.trim(), javascript: javaScript.trim() };

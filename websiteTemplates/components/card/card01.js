@@ -1,14 +1,14 @@
 module.exports = (data, index) => {
   const html = `
-    <!-- Card01 start -->
-    <section class="card01">
+    <!-- Card-${index} start -->
+    <section class="card-${index}">
       <h2>${data.sectionTitle}</h2>
-      <div class="card01-container">
+      <div class="card-${index}-container">
         ${data.cards
           .map((cardData) => {
             return `
-        <div class="card01-card">
-          <div class="card01-img-container">
+        <div class="card-${index}-card">
+          <div class="card-${index}-img-container">
             <img
               src="${
                 cardData.imageUrl
@@ -22,7 +22,7 @@ module.exports = (data, index) => {
               }"
             />
           </div>
-          <div class="card01-text-container">
+          <div class="card-${index}-text-container">
             <h3>${cardData.title}</h3>
             <p>${cardData.paragraph}</p>
           </div>
@@ -31,18 +31,18 @@ module.exports = (data, index) => {
           .join("")}
       </div>
     </section>
-    <!-- Card01 end -->
+    <!-- Card-${index} end -->
     `;
 
   const css = `
-    /* Card01 start */
-    .card01 {
+    /* Card-${index} start */
+    .card-${index} {
       background-color: var(${index % 2 === 0 ? "--bgAltColor" : "--bgColor"});
       text-align: center;
       padding: 2rem 1rem;
     }
 
-    .card01-container {
+    .card-${index}-container {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
@@ -51,7 +51,7 @@ module.exports = (data, index) => {
       gap: 2rem;
     }
 
-    .card01-card {
+    .card-${index}-card {
       background-color: var(--cardBg);
       display: flex;
       flex-direction: column;
@@ -62,32 +62,32 @@ module.exports = (data, index) => {
       overflow: hidden;
     }
 
-    .card01-text-container {
+    .card-${index}-text-container {
       padding: 0.5rem 1rem 1rem 1rem;
     }
 
-    .card01 h2 {
+    .card-${index} h2 {
       color: var(--primaryColor);
       margin-bottom: 1rem;
     }
 
-    .card01-img-container {
+    .card-${index}-img-container {
       width: inherit;
       height: 15rem;
     }
 
-    .card01-img-container img {
+    .card-${index}-img-container img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
     }
-    /* Card01 end */
+    /* Card-${index} end */
     `;
 
   const javaScript = `
-    // Card01 start
-    // Card01 end
+    // Card-${index} start
+    // Card-${index} end
     `;
 
   return { html: html.trim(), css: css.trim(), javascript: javaScript.trim() };
