@@ -1,7 +1,7 @@
 module.exports = (data, index) => {
   const html = `
-    <!-- Navigation01 start -->
-    <nav class="navigation01" id="mobile-navigation">
+    <!-- Navigation-${index} start -->
+    <nav class="navigation-${index}" id="mobile-navigation-${index}">
       <button
         onclick="toggleMobileMenu()"
         type="button"
@@ -16,20 +16,20 @@ module.exports = (data, index) => {
         "
       >
         <span
-          class="navigation01-burger-menu-line"
+          class="navigation-${index}-burger-menu-line"
           style="width: 2rem; height: 0.3rem; border-radius: 1rem"
         ></span>
         <span
-          class="navigation01-burger-menu-line"
+          class="navigation-${index}-burger-menu-line"
           style="width: 2rem; height: 0.3rem; border-radius: 1rem"
         ></span>
         <span
-          class="navigation01-burger-menu-line"
+          class="navigation-${index}-burger-menu-line"
           style="width: 2rem; height: 0.3rem; border-radius: 1rem"
         ></span>
       </button>
       <ul
-        id="navigation01-mobile-menu-options"
+        id="navigation-${index}-mobile-menu-options"
         style="
           position: absolute;
           left: 0;
@@ -49,19 +49,19 @@ module.exports = (data, index) => {
         .join("")}
       </ul>
     </nav>
-    <nav class="navigation01" id="desktop-navigation">
+    <nav class="navigation-${index}" id="desktop-navigation-${index}">
       ${data
         .map((object) => {
           return `<a href="${object.href}">${object.name}</a>`;
         })
         .join("")}
     </nav>
-    <!-- Navigation01 end -->
+    <!-- Navigation-${index} end -->
     `;
 
   const css = `
-    /* Navigation01 start */
-    .navigation01#desktop-navigation {
+    /* Navigation-${index} start */
+    .navigation-${index}#desktop-navigation-${index} {
       background-color: var(${index % 2 === 0 ? "--bgAltColor" : "--bgColor"});
       display: flex;
       position: relative;
@@ -69,7 +69,7 @@ module.exports = (data, index) => {
       width: 100%;
       padding: 1rem 0 1rem 0;
     }
-    .navigation01#desktop-navigation a {
+    .navigation-${index}#desktop-navigation-${index} a {
       text-decoration: none;
       color: var(--textColor);
       padding: 0.5rem 1rem 0.5rem 1rem;
@@ -77,37 +77,37 @@ module.exports = (data, index) => {
       font-size: large;
       font-family: "Courier New", Courier, monospace;
     }
-    .navigation01#desktop-navigation a:hover {
+    .navigation-${index}#desktop-navigation-${index} a:hover {
       background-color: var(--hoverBg);
       color: var(--text-hover-color);
     }
 
-    .navigation01#mobile-navigation {
+    .navigation-${index}#mobile-navigation-${index} {
       background-color: var(${index % 2 === 0 ? "--bgAltColor" : "--bgColor"});
       width: 100%;
       padding: 1rem;
     }
-    .navigation01#mobile-navigation span {
+    .navigation-${index}#mobile-navigation-${index} span {
       background-color: var(--textColor);
     }
-    .navigation01#mobile-navigation span.open {
+    .navigation-${index}#mobile-navigation-${index} span.open {
       background-color: var(--hoverBg);
     }
-    .navigation01#mobile-navigation ul {
+    .navigation-${index}#mobile-navigation-${index} ul {
       background-color: var(${index % 2 === 0 ? "--bgAltColor" : "--bgColor"});
       border-top: 2px solid var(--bgColor);
       max-height: 0rem;
       overflow: hidden;
     }
-    .navigation01#mobile-navigation ul.open {
+    .navigation-${index}#mobile-navigation-${index} ul.open {
       padding: 1rem;
       max-height: 20rem;
     }
-    .navigation01#mobile-navigation ul li {
+    .navigation-${index}#mobile-navigation-${index} ul li {
       padding: 0.5rem 1rem 0.5rem 1rem;
       border-radius: 0.5rem;
     }
-    .navigation01#mobile-navigation ul li a {
+    .navigation-${index}#mobile-navigation-${index} ul li a {
       background-color: var(--hoverBg);
       text-decoration: none;
       color: var(--textColor);
@@ -117,36 +117,36 @@ module.exports = (data, index) => {
       font-family: "Courier New", Courier, monospace;
     }
     @media (max-width: 480px) {
-      .navigation01#desktop-navigation {
+      .navigation-${index}#desktop-navigation-${index} {
         display: none;
       }
 
-      .navigation01#mobile-navigation {
+      .navigation-${index}#mobile-navigation-${index} {
         display: block;
       }
     }
 
     @media (min-width: 481px) {
-      .navigation01#mobile-navigation {
+      .navigation-${index}#mobile-navigation-${index} {
         display: none;
       }
     }
-    /* Navigation01 end */
+    /* Navigation-${index} end */
     `;
 
   const javaScript = `
-    // Navigation01 start
+    // Navigation-${index} start
       function toggleMobileMenu() {
         const mobileMenuOptions = document.getElementById(
-          "navigation01-mobile-menu-options"
+          "navigation-${index}-mobile-menu-options"
         );
         mobileMenuOptions.classList.toggle("open");
-        const burgerMenuLines = document.querySelectorAll(".navigation01-burger-menu-line");
+        const burgerMenuLines = document.querySelectorAll(".navigation-${index}-burger-menu-line");
         burgerMenuLines.forEach((burgerMenuLine) =>
           burgerMenuLine.classList.toggle("open")
         );
       }
-    // Navigation01 end
+    // Navigation-${index} end
     `;
 
   return { html: html.trim(), css: css.trim(), javascript: javaScript.trim() };

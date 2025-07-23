@@ -1,15 +1,15 @@
 module.exports = (data, index) => {
   const html = `
-    <!-- Footer01 start -->
-    <footer class="footer01">
+    <!-- Footer-${index} start -->
+    <footer class="footer-${index}">
       <p>&#169; ${new Date().getFullYear()} Made with <a href="/">Aether Project</a>.<br class="footer01-new-line">&nbsp;All rights reserved.</p>
     </footer>
-    <!-- Footer01 end -->
+    <!-- Footer-${index} end -->
     `;
 
   const css = `
-    /* Footer01 start */
-    .footer01 {
+    /* Footer-${index} start */
+    .footer-${index} {
       background-color: var(--bgAltColor);
       color: var(--textColor);
       display: inline-flex;
@@ -18,33 +18,33 @@ module.exports = (data, index) => {
       padding: 2rem 0;
       font-family: "Courier New", Courier, monospace;
     }
-    .footer01 a {
+    .footer-${index} a {
       color: var(--textColor);
       padding-left: 0.5rem;
     }
-    .footer01 a:hover {
+    .footer-${index} a:hover {
       color: var(--textColor);
     }
     @media (max-width: 480px) {
-      .footer01 {
+      .footer-${index} {
       text-align: center;
       }
-      .footer01-new-line {
+      .footer-${index}-new-line {
         display: block;
       }
     }
 
     @media (min-width: 481px) {
-      .footer01-new-line {
+      .footer-${index}-new-line {
         display: none;
       }
     }
-    /* Footer01 end */
+    /* Footer-${index} end */
     `;
 
   const javaScript = `
-    // Footer01 start
-    // Footer01 end
+    // Footer-${index} start
+    // Footer-${index} end
     `;
 
   return { html: html.trim(), css: css.trim(), javascript: javaScript.trim() };
