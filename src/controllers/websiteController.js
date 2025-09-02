@@ -2,9 +2,13 @@ const {
   updateUserTemplateColorPalette,
 } = require("../utils/updateUserTemplateColorPalette");
 
-exports.generateTemplate = (contentData, colorPalette, page) => {
+exports.generateTemplate = (templateData, requestedPage) => {
+  const contentData = templateData.content;
+  const colorPalette = templateData.colorPalette;
   const pageToGenerate =
-    page === "/" ? "index" : page.toString().slice(1, page.length);
+    requestedPage === "/"
+      ? "index"
+      : requestedPage.toString().slice(1, requestedPage.length);
 
   if (!contentData[pageToGenerate]) {
     return undefined;
@@ -95,7 +99,8 @@ exports.generateTemplate = (contentData, colorPalette, page) => {
       <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Creative Portfolio</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <title>${templateData.name}</title>
       </head>
       <body>
       <style>

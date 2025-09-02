@@ -7,7 +7,7 @@ exports.getTemplateData = async (subdomain) => {
 
     const query = { subdomain: subdomain };
 
-    const options = { projection: { content: 1, colorPalette: 1 } };
+    const options = { projection: { name: 1, content: 1, colorPalette: 1 } };
 
     const templateData = await templatesCollection.findOne(query, options);
 

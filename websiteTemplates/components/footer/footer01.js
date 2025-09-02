@@ -2,7 +2,7 @@ module.exports = (data, index) => {
   const html = `
     <!-- Footer-${index} start -->
     <footer class="footer-${index}">
-      <p>&#169; ${new Date().getFullYear()} Made with <a href="/">Aether Project</a>.<br class="footer01-new-line">&nbsp;All rights reserved.</p>
+      <p>&#169; ${new Date().getFullYear()} Made with <a href="/">Aether Project</a>.<br class="footer-${index}-new-line">&nbsp;All rights reserved.</p>
     </footer>
     <!-- Footer-${index} end -->
     `;

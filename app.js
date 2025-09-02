@@ -74,11 +74,7 @@ app.use(async (req, res, next) => {
     return;
   }
 
-  const generatedTemplate = generateTemplate(
-    templateData.content,
-    templateData.colorPalette,
-    req.path
-  );
+  const generatedTemplate = generateTemplate(templateData, req.path);
 
   if (generatedTemplate) {
     return res.send(generatedTemplate);
